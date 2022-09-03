@@ -25,7 +25,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("DSCLIENTS API")
                 .description("Aplicação para simular um crud de " +
-                             "clientes de uma sistema online")
+                             "clientes de um sistema online")
                 .version("1.0")
                 .contact(contact())
                 .build();

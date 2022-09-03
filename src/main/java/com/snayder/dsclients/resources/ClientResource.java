@@ -53,7 +53,7 @@ public class ClientResource {
     }
 
     @PutMapping("/{idClient}")
-    @ApiOperation("Atulização de um cliente pelo id")
+    @ApiOperation("Atualização de um cliente pelo id")
     public ResponseEntity<ClientDTO> update(@RequestBody ClientDTO dto,
                                             @PathVariable Long idClient) {
         dto = this.clientService.update(idClient, dto);
