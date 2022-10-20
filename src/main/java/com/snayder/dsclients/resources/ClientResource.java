@@ -17,6 +17,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/clients")
+@CrossOrigin("*")
 public class ClientResource {
 
     @Autowired
