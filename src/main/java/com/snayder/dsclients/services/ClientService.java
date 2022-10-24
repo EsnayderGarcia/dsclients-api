@@ -51,7 +51,7 @@ public class ClientService {
         try {
             Client client = this.clientRepository.getById(idClient);
 
-            client.convertToClient(dto);
+            convertToClient(client, dto);
             client = this.clientRepository.saveAndFlush(client);
 
             return new ClientDTO(client);
@@ -72,5 +72,12 @@ public class ClientService {
             throw new ResourceNotFoundException("Cliente não encotrado para exclusão!");
         }
     }
+    
+	private void convertToClient(Client client, ClientDTO dto) {
+		client.setName(dto.getName());
+		client.setIncome(dto.getIncome());
+		client.setCpf(dto.getCpf());
+		client.setBirthdate(dto.getBirthDate());
+	}
 
 }

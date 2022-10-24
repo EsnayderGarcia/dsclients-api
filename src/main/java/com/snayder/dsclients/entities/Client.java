@@ -2,6 +2,7 @@ package com.snayder.dsclients.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.snayder.dsclients.dtos.ClientDTO;
 
 @Entity
@@ -20,7 +22,7 @@ import com.snayder.dsclients.dtos.ClientDTO;
 public class Client implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -31,9 +33,9 @@ public class Client implements Serializable {
 	private String cpf;
 
 	private Double income;
-
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant birthDate;
+	
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private LocalDate birthDate;
 
 	private Integer children;
 
@@ -43,11 +45,9 @@ public class Client implements Serializable {
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant updatedAt;
 
-	public Client() {
+	public Client() {}
 
-	}
-
-	public Client(Long id, String name, String cpf, Double income, Instant birthDate, Integer children) {
+	public Client(Long id, String name, String cpf, Double income, LocalDate birthDate, Integer children) {
 		this.id = id;
 		this.name = name;
 		this.cpf = cpf;
@@ -64,14 +64,6 @@ public class Client implements Serializable {
 		this.children = dto.getChildren();
 	}
 	
-	public void convertToClient(ClientDTO dto) {
-		this.name = dto.getName();
-		this.cpf = dto.getCpf();
-		this.income = dto.getIncome();
-		this.birthDate = dto.getBirthDate();
-		this.children = dto.getChildren();
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -104,11 +96,11 @@ public class Client implements Serializable {
 		this.income = income;
 	}
 
-	public Instant getBirthdate() {
+	public LocalDate getBirthdate() {
 		return birthDate;
 	}
 
-	public void setBirthdate(Instant birthDate) {
+	public void setBirthdate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 

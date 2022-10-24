@@ -5,7 +5,7 @@ import com.snayder.dsclients.entities.Client;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class ClientDTO implements Serializable {
@@ -21,7 +21,7 @@ public class ClientDTO implements Serializable {
 	
 	private Double income;
 	
-	private Instant birthDate;
+	private LocalDate birthDate;
 	
 	private Integer children;
 	
@@ -29,7 +29,7 @@ public class ClientDTO implements Serializable {
 	
 	}
 
-	public ClientDTO(Long id, String name, String cpf, Double income, Instant birthDate, Integer children) {
+	public ClientDTO(Long id, String name, String cpf, Double income, LocalDate birthDate, Integer children) {
 		this.id = id;
 		this.name = name;
 		this.cpf = cpf;
@@ -79,11 +79,11 @@ public class ClientDTO implements Serializable {
 		this.income = income;
 	}
 
-	public Instant getBirthDate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Instant birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 
