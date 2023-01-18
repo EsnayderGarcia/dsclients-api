@@ -1,10 +1,7 @@
 package com.snayder.dsclients.services;
 
-import com.snayder.dsclients.dtos.ClientDTO;
-import com.snayder.dsclients.entities.Client;
-import com.snayder.dsclients.repositories.ClientRepository;
-import com.snayder.dsclients.services.exceptions.DatabaseViolationException;
-import com.snayder.dsclients.services.exceptions.ResourceNotFoundException;
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -13,18 +10,26 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
+import com.snayder.dsclients.dtos.ClientDTO;
+import com.snayder.dsclients.entities.Client;
+import com.snayder.dsclients.entities.mapper.ClientMapper;
+import com.snayder.dsclients.repositories.ClientRepository;
+import com.snayder.dsclients.services.exceptions.DatabaseViolationException;
+import com.snayder.dsclients.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class ClientService {
 
     @Autowired
     private ClientRepository clientRepository;
-
+    
+    @Autowired
+    private ClientMapper clientMapper;
+    
     @Transactional(readOnly = true)
     public Page<ClientDTO> findAll(PageRequest pageRequest) {
         Page<Client> clients = this.clientRepository.findAll(pageRequest);
-        return clients.map(ClientDTO::new);
+        return clients.map(clientMapper::toDTO);
     }
 
     @Transactional(readOnly = true)
@@ -32,7 +37,7 @@ public class ClientService {
         Client client = this.clientRepository.findById(idClient)
             .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado!"));
 
-        return new ClientDTO(client);
+        return clientMapper.toDTO(client);
     }
 
     @Transactional
@@ -77,7 +82,7 @@ public class ClientService {
 		client.setName(dto.getName());
 		client.setIncome(dto.getIncome());
 		client.setCpf(dto.getCpf());
-		client.setBirthdate(dto.getBirthDate());
+		client.setBirthDate(dto.getBirthDate());
 	}
 
 }

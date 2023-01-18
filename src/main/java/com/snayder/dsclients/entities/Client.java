@@ -96,11 +96,11 @@ public class Client implements Serializable {
 		this.income = income;
 	}
 
-	public LocalDate getBirthdate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthdate(LocalDate birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 

@@ -43,7 +43,7 @@ public class ClientDTO implements Serializable {
 		this.name = client.getName();
 		this.cpf = client.getCpf();
 		this.income = client.getIncome();
-		this.birthDate = client.getBirthdate();
+		this.birthDate = client.getBirthDate();
 		this.children = client.getChildren();
 	}
 
