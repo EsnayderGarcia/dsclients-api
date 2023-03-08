@@ -4,16 +4,18 @@ import com.snayder.dsclients.dtos.ClientDTO;
 import com.snayder.dsclients.services.ClientService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import static org.springframework.data.domain.Sort.Direction.valueOf;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
+
+import static org.springframework.data.domain.Sort.Direction.valueOf;
 
 @RestController
 @RequestMapping("/clients")
@@ -70,6 +72,13 @@ public class ClientResource {
     public ResponseEntity<Void> delete(
     		@PathVariable @ApiParam(value = "Id do Cliente", example = "1") Long idClient) {
         this.clientService.delete(idClient);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("report")
+    public ResponseEntity<Void> generateClientsReport(HttpServletRequest req, HttpServletResponse resp,
+                                              @RequestParam(defaultValue = "false")  boolean toExcel) throws Exception {
+        clientService.generateClientsReport(req.getServletContext(), resp, toExcel);
         return ResponseEntity.noContent().build();
     }
 

@@ -1,7 +1,12 @@
 package com.snayder.dsclients.services;
 
-import javax.persistence.EntityNotFoundException;
-
+import com.snayder.dsclients.dtos.ClientDTO;
+import com.snayder.dsclients.entities.Client;
+import com.snayder.dsclients.entities.mapper.ClientMapper;
+import com.snayder.dsclients.repositories.ClientRepository;
+import com.snayder.dsclients.services.exceptions.DatabaseViolationException;
+import com.snayder.dsclients.services.exceptions.ResourceNotFoundException;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -10,18 +15,20 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.snayder.dsclients.dtos.ClientDTO;
-import com.snayder.dsclients.entities.Client;
-import com.snayder.dsclients.entities.mapper.ClientMapper;
-import com.snayder.dsclients.repositories.ClientRepository;
-import com.snayder.dsclients.services.exceptions.DatabaseViolationException;
-import com.snayder.dsclients.services.exceptions.ResourceNotFoundException;
+import javax.persistence.EntityNotFoundException;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class ClientService {
 
     @Autowired
     private ClientRepository clientRepository;
+
+    @Autowired
+    private ReportService reportService;
     
     @Autowired
     private ClientMapper clientMapper;
@@ -77,6 +84,20 @@ public class ClientService {
             throw new ResourceNotFoundException("Cliente não encotrado para exclusão!");
         }
     }
+
+    public void generateClientsReport(ServletContext context, HttpServletResponse resp, boolean toExcel) throws Exception {
+        Map<String, Object> params = new HashMap<>();
+
+        reportService.generateReport(
+                context,
+                resp,
+                "rel_clients",
+                params,
+                new JRBeanCollectionDataSource(clientRepository.findAll()),
+                toExcel
+        );
+    }
+
     
 	private void convertToClient(Client client, ClientDTO dto) {
 		client.setName(dto.getName());
