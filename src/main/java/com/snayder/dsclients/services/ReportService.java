@@ -25,12 +25,13 @@ public class ReportService {
                                boolean toExcel) throws JRException, IOException {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        String reportPath = context.getRealPath("reports")
-                .concat(File.separator)
-                .concat(reportName)
-                .concat(".jasper");
+        StringBuilder reportPath = new StringBuilder();
+        reportPath.append(context.getRealPath("reports"))
+                .append(File.separator)
+                .append(reportName)
+                .append(".jasper");
 
-        JasperPrint print = JasperFillManager.fillReport(reportPath, params, data);
+        JasperPrint print = JasperFillManager.fillReport(reportPath.toString(), params, data);
         JRExporter exporter = toExcel ? new JRXlsExporter() : new JRPdfExporter();
 
         exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);

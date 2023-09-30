@@ -5,8 +5,5 @@ import org.springframework.stereotype.Repository;
 
 import com.snayder.dsclients.entities.Client;
 
-@Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
-
-						
 }
