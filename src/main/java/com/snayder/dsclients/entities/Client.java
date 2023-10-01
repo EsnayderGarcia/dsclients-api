@@ -3,6 +3,8 @@ package com.snayder.dsclients.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.snayder.dsclients.dtos.ClientRequest;
 import com.snayder.dsclients.dtos.EmpregoRequest;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -13,6 +15,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "tb_clients")
+@Where(clause = "ativo = true")
+@SQLDelete(sql = "update tb_clients set ativo = false where id = ?")
 public class Client {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +50,7 @@ public class Client {
 		this.birthDate = dto.getBirthDate();
 		this.children = dto.getChildren();
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -138,7 +142,7 @@ public class Client {
 		empregos.forEach(e -> this.empregos.add(e.toModel(this)));
 	}
 
-    public void atualizar(ClientRequest clientRequest) {
+    public void  atualizar(ClientRequest clientRequest) {
     	name = clientRequest.getName();
 		cpf = clientRequest.getCpf();
 		birthDate = clientRequest.getBirthDate();

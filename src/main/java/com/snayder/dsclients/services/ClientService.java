@@ -55,9 +55,8 @@ public class ClientService {
         try {
             Client client = this.clientRepository.getById(idClient);
             client.atualizar(clientRequest);
-            client = this.clientRepository.save(client);
 
-            return new ClientResponse(client);
+            return new ClientResponse(this.clientRepository.save(client));
         } catch (EntityNotFoundException ex) {
             throw new ResourceNotFoundException("Cliente não encontrado para atualização!");
         }

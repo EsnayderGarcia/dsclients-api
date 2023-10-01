@@ -1,17 +1,22 @@
 package com.snayder.dsclients.entities;
 
 import com.snayder.dsclients.dtos.EmpregoRequest;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_empregos")
+@SQLDelete(sql = "update tb_empregos set ativo = false where id = ?")
+@Where(clause = "ativo = true")
 public class Emprego {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String cargo;
     private String descricao;
+    private boolean ativo = true;
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
@@ -20,6 +25,7 @@ public class Emprego {
     }
 
     public Emprego(EmpregoRequest empregoRequest) {
+        id = empregoRequest.getId();
         cargo = empregoRequest.getCargo();
         descricao = empregoRequest.getDescricao();
     }
@@ -54,5 +60,13 @@ public class Emprego {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }
