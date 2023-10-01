@@ -4,7 +4,6 @@ import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.export.SimpleExporterConfiguration;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletContext;

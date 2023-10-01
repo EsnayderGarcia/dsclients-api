@@ -1,10 +1,10 @@
 package com.snayder.dsclients.resources;
 
-import com.snayder.dsclients.dtos.ClientDTO;
+import com.snayder.dsclients.dtos.ClientRequest;
+import com.snayder.dsclients.dtos.ClientResponse;
 import com.snayder.dsclients.services.ClientService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
@@ -22,49 +22,52 @@ import static org.springframework.data.domain.Sort.Direction.valueOf;
 @CrossOrigin("*")
 public class ClientResource {
 
-    @Autowired
-    private ClientService clientService;
+    private final ClientService clientService;
+
+    public ClientResource(ClientService clientService) {
+        this.clientService = clientService;
+    }
 
     @GetMapping
     @ApiOperation("Busca paginada de clientes")
-    public ResponseEntity<Page<ClientDTO>> findAll(
+    public ResponseEntity<Page<ClientResponse>> findAll(
 	        @RequestParam(defaultValue = "0")  @ApiParam(value = "Número da Página") int page,
 	        @RequestParam(defaultValue = "10") @ApiParam(value = "Clientes por Página") int size,
 	        @RequestParam(defaultValue = "DESC") @ApiParam(value = "Tipo da Ordenação") String direction,
-	        @RequestParam(defaultValue = "income") @ApiParam(value = "Informe por qual dado os clientes serão ordenados") String sort) {
+	        @RequestParam(defaultValue = "birthDate") @ApiParam(value = "Informe por qual dado os clientes serão ordenados") String sort) {
        PageRequest pageRequest = PageRequest.of(page, size, valueOf(direction), sort);
-       Page<ClientDTO> dtos = this.clientService.findAll(pageRequest);
+       Page<ClientResponse> dtos = this.clientService.findAll(pageRequest);
         
        return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/{idClient}")
     @ApiOperation("Busca de um cliente pelo id")
-    public ResponseEntity<ClientDTO> findById(
+    public ResponseEntity<ClientResponse> findById(
     		@PathVariable @ApiParam(value = "Id do Cliente", example = "1") Long idClient) {
-        ClientDTO dto = this.clientService.findById(idClient);
+        ClientResponse dto = this.clientService.findById(idClient);
         return ResponseEntity.ok(dto);
     }
 
     @PostMapping
     @ApiOperation("Inserção de um cliente")
-    public ResponseEntity<ClientDTO> insert(@RequestBody ClientDTO dto) {
-        dto = this.clientService.insert(dto);
+    public ResponseEntity<ClientResponse> insert(@RequestBody ClientRequest dto) {
+        ClientResponse clientResponse = this.clientService.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(dto.getId())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(dto);
+        return ResponseEntity.created(uri).body(clientResponse);
     }
 
     @PutMapping("/{idClient}")
     @ApiOperation("Atualização de um cliente pelo id")
-    public ResponseEntity<ClientDTO> update(
-	    	@RequestBody ClientDTO dto,
+    public ResponseEntity<ClientResponse> update(
+	    	@RequestBody ClientRequest dto,
 	    	@PathVariable @ApiParam(value = "Id do Cliente", example = "1") Long idClient) {
-    	dto = this.clientService.update(idClient, dto);
-        return ResponseEntity.ok(dto);
+        ClientResponse clientResponse = this.clientService.update(idClient, dto);
+        return ResponseEntity.ok(clientResponse);
     }
 
     @DeleteMapping("/{idClient}")

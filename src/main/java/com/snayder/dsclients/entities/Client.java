@@ -1,39 +1,27 @@
 package com.snayder.dsclients.entities;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.snayder.dsclients.dtos.ClientRequest;
+import com.snayder.dsclients.dtos.EmpregoRequest;
+
+import javax.persistence.*;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.snayder.dsclients.dtos.ClientDTO;
 
 @Entity
 @Table(name = "tb_clients")
-public class Client implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-	
+public class Client {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private String name;
 
-	@Column(unique = true)
 	private String cpf;
 
-	private Double income;
-	
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate birthDate;
 
@@ -45,21 +33,16 @@ public class Client implements Serializable {
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant updatedAt;
 
+	private boolean ativo = true;
+
+	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+	private final List<Emprego> empregos = new ArrayList<>();
+
 	public Client() {}
 
-	public Client(Long id, String name, String cpf, Double income, LocalDate birthDate, Integer children) {
-		this.id = id;
-		this.name = name;
-		this.cpf = cpf;
-		this.income = income;
-		this.birthDate = birthDate;
-		this.children = children;
-	}
-	
-	public Client(ClientDTO dto) {
+	public Client(ClientRequest dto) {
 		this.name = dto.getName();
 		this.cpf = dto.getCpf();
-		this.income = dto.getIncome();
 		this.birthDate = dto.getBirthDate();
 		this.children = dto.getChildren();
 	}
@@ -88,14 +71,6 @@ public class Client implements Serializable {
 		this.cpf = cpf;
 	}
 
-	public Double getIncome() {
-		return income;
-	}
-
-	public void setIncome(Double income) {
-		this.income = income;
-	}
-
 	public LocalDate getBirthDate() {
 		return birthDate;
 	}
@@ -118,6 +93,18 @@ public class Client implements Serializable {
 
 	public Instant getUpdate_at() {
 		return updatedAt;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+
+	public List<Emprego> getEmpregos() {
+		return empregos;
 	}
 
 	@PrePersist
@@ -145,5 +132,19 @@ public class Client implements Serializable {
 			return false;
 		Client other = (Client) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	public void carregarEmpregos(List<EmpregoRequest> empregos) {
+		empregos.forEach(e -> this.empregos.add(e.toModel(this)));
+	}
+
+    public void atualizar(ClientRequest clientRequest) {
+    	name = clientRequest.getName();
+		cpf = clientRequest.getCpf();
+		birthDate = clientRequest.getBirthDate();
+		children = clientRequest.getChildren();
+
+		empregos.clear();
+		carregarEmpregos(clientRequest.getEmpregos());
 	}
 }
