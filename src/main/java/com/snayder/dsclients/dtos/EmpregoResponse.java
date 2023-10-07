@@ -7,13 +7,11 @@ public class EmpregoResponse {
     private Long id;
     private String cargo;
     private String descricao;
-    private boolean ativo;
 
     public EmpregoResponse(Emprego emprego) {
         id = emprego.getId();
         cargo = emprego.getCargo();
         descricao = emprego.getDescricao();
-        ativo = emprego.isAtivo();
     }
 
     public Long getId() {
@@ -26,9 +24,5 @@ public class EmpregoResponse {
 
     public String getDescricao() {
         return descricao;
-    }
-
-    public boolean isAtivo() {
-        return ativo;
     }
 }

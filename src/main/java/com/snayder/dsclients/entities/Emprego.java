@@ -8,15 +8,15 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_empregos")
-@SQLDelete(sql = "update tb_empregos set ativo = false where id = ?")
-@Where(clause = "ativo = true")
+@SQLDelete(sql = "update tb_empregos set situacao = 'I' where id = ?")
+@Where(clause = "situacao = 'A'")
 public class Emprego {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String cargo;
     private String descricao;
-    private boolean ativo = true;
+    private String situacao = "A";
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
@@ -25,7 +25,6 @@ public class Emprego {
     }
 
     public Emprego(EmpregoRequest empregoRequest) {
-        id = empregoRequest.getId();
         cargo = empregoRequest.getCargo();
         descricao = empregoRequest.getDescricao();
     }
@@ -62,11 +61,11 @@ public class Emprego {
         this.client = client;
     }
 
-    public boolean isAtivo() {
-        return ativo;
+    public String getSituacao() {
+        return situacao;
     }
 
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
     }
 }

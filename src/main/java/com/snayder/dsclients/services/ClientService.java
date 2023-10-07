@@ -3,6 +3,7 @@ package com.snayder.dsclients.services;
 import com.snayder.dsclients.dtos.ClientRequest;
 import com.snayder.dsclients.dtos.ClientResponse;
 import com.snayder.dsclients.entities.Client;
+import com.snayder.dsclients.entities.Emprego;
 import com.snayder.dsclients.repositories.ClientRepository;
 import com.snayder.dsclients.services.exceptions.ResourceNotFoundException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -81,5 +82,17 @@ public class ClientService {
                 new JRBeanCollectionDataSource(clientRepository.findAll()),
                 toExcel
         );
+    }
+
+    @Transactional
+    public void delete(Long idClient, Long idEmprego) {
+        Client client = clientRepository.findById(idClient).get();
+        for(Emprego emprego : client.getEmpregos()) {
+            if(emprego.getId() == idEmprego) {
+                emprego.setSituacao("I");
+                clientRepository.save(client);
+                break;
+            }
+        }
     }
 }

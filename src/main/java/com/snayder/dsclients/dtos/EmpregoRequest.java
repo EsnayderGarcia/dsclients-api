@@ -8,13 +8,11 @@ public class EmpregoRequest {
     private Long id;
     private String cargo;
     private String descricao;
-    private boolean ativo;
 
-    public EmpregoRequest(Long id, String cargo, String descricao, boolean situacao) {
+    public EmpregoRequest(Long id, String cargo, String descricao) {
         this.id = id;
         this.cargo = cargo;
         this.descricao = descricao;
-        this.ativo = situacao;
     }
 
     public Long getId() {
@@ -29,16 +27,12 @@ public class EmpregoRequest {
         return descricao;
     }
 
-    public boolean getAtivo() {
-        return ativo;
-    }
-
     public Emprego toModel(Client client) {
         Emprego emprego = new Emprego(this);
-        emprego.setClient(client);
+        if(client.getId() != null)
+            emprego.setId(id);
 
-        if (id != null && !ativo)
-            emprego.setAtivo(false);
+        emprego.setClient(client);
 
         return emprego;
     }

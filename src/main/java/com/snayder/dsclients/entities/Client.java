@@ -15,8 +15,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "tb_clients")
-@Where(clause = "ativo = true")
-@SQLDelete(sql = "update tb_clients set ativo = false where id = ?")
+@Where(clause = "situacao = 'A'")
+@SQLDelete(sql = "update tb_clients set situacao = 'I' where id = ?")
 public class Client {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +37,7 @@ public class Client {
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant updatedAt;
 
-	private boolean ativo = true;
+	private String situacao = "A";
 
 	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
 	private final List<Emprego> empregos = new ArrayList<>();
@@ -99,12 +99,12 @@ public class Client {
 		return updatedAt;
 	}
 
-	public boolean isAtivo() {
-		return ativo;
+	public String getSituacao() {
+		return situacao;
 	}
 
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
+	public void setSituacao(String situacao) {
+		this.situacao = situacao;
 	}
 
 	public List<Emprego> getEmpregos() {

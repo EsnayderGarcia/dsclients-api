@@ -85,4 +85,9 @@ public class ClientResource {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/{idClient}/empregos/{idEmprego}")
+    public ResponseEntity<Void> delete(@PathVariable Long idClient, @PathVariable Long idEmprego) {
+        this.clientService.delete(idClient, idEmprego);
+        return ResponseEntity.noContent().build();
+    }
 }
