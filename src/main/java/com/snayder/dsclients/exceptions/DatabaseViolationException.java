@@ -1,4 +1,4 @@
-package com.snayder.dsclients.services.exceptions;
+package com.snayder.dsclients.exceptions;
 
 public class DatabaseViolationException extends RuntimeException {
 

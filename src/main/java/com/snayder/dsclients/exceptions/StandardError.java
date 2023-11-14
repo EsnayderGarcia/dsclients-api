@@ -1,4 +1,4 @@
-package com.snayder.dsclients.resources.exceptions;
+package com.snayder.dsclients.exceptions;
 
 import java.time.Instant;
 

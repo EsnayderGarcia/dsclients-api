@@ -1,8 +1,8 @@
-package com.snayder.dsclients.entities;
+package com.snayder.dsclients.cliente;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.snayder.dsclients.dtos.ClientRequest;
-import com.snayder.dsclients.dtos.EmpregoRequest;
+import com.snayder.dsclients.emprego.Emprego;
+import com.snayder.dsclients.emprego.EmpregoRequest;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -39,17 +39,10 @@ public class Client {
 
 	private String situacao = "A";
 
-	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
 	private final List<Emprego> empregos = new ArrayList<>();
 
 	public Client() {}
-
-	public Client(ClientRequest dto) {
-		this.name = dto.getName();
-		this.cpf = dto.getCpf();
-		this.birthDate = dto.getBirthDate();
-		this.children = dto.getChildren();
-	}
 
 	public Long getId() {
 		return id;
@@ -139,7 +132,7 @@ public class Client {
 	}
 
 	public void carregarEmpregos(List<EmpregoRequest> empregos) {
-		empregos.forEach(e -> this.empregos.add(e.toModel(this)));
+		empregos.forEach(e -> this.empregos.add(new Emprego(e, this)));
 	}
 
     public void  atualizar(ClientRequest clientRequest) {

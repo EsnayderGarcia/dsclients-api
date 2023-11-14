@@ -1,22 +1,18 @@
-package com.snayder.dsclients.entities;
+package com.snayder.dsclients.emprego;
 
-import com.snayder.dsclients.dtos.EmpregoRequest;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import com.snayder.dsclients.cliente.Client;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_empregos")
-@SQLDelete(sql = "update tb_empregos set situacao = 'I' where id = ?")
-@Where(clause = "situacao = 'A'")
 public class Emprego {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String cargo;
     private String descricao;
-    private String situacao = "A";
+
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
@@ -25,8 +21,16 @@ public class Emprego {
     }
 
     public Emprego(EmpregoRequest empregoRequest) {
+        id = empregoRequest.getId();
         cargo = empregoRequest.getCargo();
         descricao = empregoRequest.getDescricao();
+    }
+
+    public Emprego(EmpregoRequest empregoRequest, Client client) {
+        id = empregoRequest.getId();
+        cargo = empregoRequest.getCargo();
+        descricao = empregoRequest.getDescricao();
+        this.client = client;
     }
 
     public Long getId() {
@@ -59,13 +63,5 @@ public class Emprego {
 
     public void setClient(Client client) {
         this.client = client;
-    }
-
-    public String getSituacao() {
-        return situacao;
-    }
-
-    public void setSituacao(String situacao) {
-        this.situacao = situacao;
     }
 }

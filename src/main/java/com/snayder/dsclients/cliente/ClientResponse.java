@@ -1,6 +1,6 @@
-package com.snayder.dsclients.dtos;
+package com.snayder.dsclients.cliente;
 
-import com.snayder.dsclients.entities.Client;
+import com.snayder.dsclients.emprego.EmpregoResponse;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

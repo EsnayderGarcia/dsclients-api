@@ -1,18 +1,16 @@
-package com.snayder.dsclients.resources;
+package com.snayder.dsclients.cliente;
 
-import com.snayder.dsclients.dtos.ClientRequest;
-import com.snayder.dsclients.dtos.ClientResponse;
-import com.snayder.dsclients.services.ClientService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 
 import static org.springframework.data.domain.Sort.Direction.valueOf;
@@ -21,7 +19,6 @@ import static org.springframework.data.domain.Sort.Direction.valueOf;
 @RequestMapping("/clients")
 @CrossOrigin("*")
 public class ClientResource {
-
     private final ClientService clientService;
 
     public ClientResource(ClientService clientService) {
@@ -79,15 +76,10 @@ public class ClientResource {
     }
 
     @GetMapping("report")
-    public ResponseEntity<Void> generateClientsReport(HttpServletRequest req, HttpServletResponse resp,
-                                              @RequestParam(defaultValue = "false")  boolean toExcel) throws Exception {
-        clientService.generateClientsReport(req.getServletContext(), resp, toExcel);
-        return ResponseEntity.noContent().build();
-    }
+    public ResponseEntity<byte[]> generateClientsReport() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
 
-    @DeleteMapping("/{idClient}/empregos/{idEmprego}")
-    public ResponseEntity<Void> delete(@PathVariable Long idClient, @PathVariable Long idEmprego) {
-        this.clientService.delete(idClient, idEmprego);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(clientService.generateReport(), headers, HttpStatus.OK);
     }
 }

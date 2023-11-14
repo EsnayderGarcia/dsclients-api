@@ -1,6 +1,4 @@
-package com.snayder.dsclients.dtos;
-
-import com.snayder.dsclients.entities.Emprego;
+package com.snayder.dsclients.emprego;
 
 public class EmpregoResponse {
 

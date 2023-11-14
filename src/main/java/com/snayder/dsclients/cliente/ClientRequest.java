@@ -1,6 +1,6 @@
-package com.snayder.dsclients.dtos;
+package com.snayder.dsclients.cliente;
 
-import com.snayder.dsclients.entities.Client;
+import com.snayder.dsclients.emprego.EmpregoRequest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -61,12 +61,5 @@ public class ClientRequest {
 
 	public List<EmpregoRequest> getEmpregos() {
 		return empregos;
-	}
-
-	public Client toModel() {
-		Client client = new Client(this);
-		client.carregarEmpregos(empregos);
-
-		return client;
 	}
 }

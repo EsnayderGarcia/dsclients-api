@@ -73,16 +73,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports</artifactId>
-			<version>6.15.0</version>
-
-			<exclusions>
-				<exclusion>
-					<groupId>com.lowagie</groupId>
-					<artifactId>itext</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>com.snayder</groupId>
+			<artifactId>lib-relatorio</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -90,7 +83,6 @@
 			<artifactId>poi</artifactId>
 			<version>3.17</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>

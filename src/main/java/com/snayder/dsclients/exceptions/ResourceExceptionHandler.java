@@ -1,16 +1,12 @@
-package com.snayder.dsclients.resources.exceptions;
-
-import java.time.Instant;
-
-import javax.servlet.http.HttpServletRequest;
+package com.snayder.dsclients.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.snayder.dsclients.services.exceptions.DatabaseViolationException;
-import com.snayder.dsclients.services.exceptions.ResourceNotFoundException;
+import javax.servlet.http.HttpServletRequest;
+import java.time.Instant;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
