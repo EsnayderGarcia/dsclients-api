@@ -44,12 +44,12 @@ public class ClientService {
     @Transactional
     public ClientResponse update(Long idClient, ClientRequest clientRequest) {
         try {
-            Client client = this.clientRepository.findById(idClient).get();
-            client = ClientConverter.convertToClient(clientRequest);
-            client = this.clientRepository.save(client);
+            Client client = this.clientRepository.getById(idClient);
+            ClientConverter.converterToClientUpdate(client, clientRequest);
 
-            return new ClientResponse(client);
-        } catch (EntityNotFoundException ex) {
+            return new ClientResponse(this.clientRepository.save(client));
+        }
+        catch (EntityNotFoundException ex) {
             throw new ResourceNotFoundException("Cliente não encontrado para atualização!");
         }
     }

@@ -14,13 +14,24 @@ public class ClientConverter {
         client.setBirthDate(clientRequest.getBirthDate());
         client.setChildren(clientRequest.getChildren());
 
-        client.getEmpregos().clear();
-
         if (!clientRequest.getEmpregos().isEmpty()) {
             clientRequest.getEmpregos().forEach(empregoRequest -> client.getEmpregos().add(new Emprego(empregoRequest, client)));
         }
 
         return client;
+    }
+
+    public static void converterToClientUpdate(Client client, ClientRequest clientRequest) {
+        client.setName(clientRequest.getName());
+        client.setCpf(clientRequest.getCpf());
+        client.setBirthDate(clientRequest.getBirthDate());
+        client.setChildren(clientRequest.getChildren());
+
+        client.getEmpregos().clear();
+
+        if (!clientRequest.getEmpregos().isEmpty()) {
+            clientRequest.getEmpregos().forEach(empregoRequest -> client.getEmpregos().add(new Emprego(empregoRequest, client)));
+        }
     }
 
     public static ClienteRelatorioDto convertToClienteRelatorioDto(Client client) {
