@@ -2,7 +2,6 @@ package com.snayder.dsclients.cliente;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.snayder.dsclients.emprego.Emprego;
-import com.snayder.dsclients.emprego.EmpregoRequest;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -129,19 +128,5 @@ public class Client {
 			return false;
 		Client other = (Client) obj;
 		return Objects.equals(id, other.id);
-	}
-
-	public void carregarEmpregos(List<EmpregoRequest> empregos) {
-		empregos.forEach(e -> this.empregos.add(new Emprego(e, this)));
-	}
-
-    public void  atualizar(ClientRequest clientRequest) {
-    	name = clientRequest.getName();
-		cpf = clientRequest.getCpf();
-		birthDate = clientRequest.getBirthDate();
-		children = clientRequest.getChildren();
-
-		empregos.clear();
-		carregarEmpregos(clientRequest.getEmpregos());
 	}
 }

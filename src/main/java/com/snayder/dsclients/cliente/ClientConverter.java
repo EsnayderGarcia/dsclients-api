@@ -1,10 +1,8 @@
 package com.snayder.dsclients.cliente;
 
-import com.snayder.dsclients.emprego.Emprego;
+import com.snayder.dsclients.emprego.EmpregoConverter;
+import com.snayder.dsclients.util.Converter;
 import com.snayder.relatorio.cliente.ClienteRelatorioDto;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 public class ClientConverter {
     public static Client convertToClient(ClientRequest clientRequest) {
@@ -15,7 +13,8 @@ public class ClientConverter {
         client.setChildren(clientRequest.getChildren());
 
         if (!clientRequest.getEmpregos().isEmpty()) {
-            clientRequest.getEmpregos().forEach(empregoRequest -> client.getEmpregos().add(new Emprego(empregoRequest, client)));
+            clientRequest.getEmpregos()
+                    .forEach(empregoRequest -> client.getEmpregos().add(EmpregoConverter.toEmprego(empregoRequest, client)));
         }
 
         return client;
@@ -30,7 +29,8 @@ public class ClientConverter {
         client.getEmpregos().clear();
 
         if (!clientRequest.getEmpregos().isEmpty()) {
-            clientRequest.getEmpregos().forEach(empregoRequest -> client.getEmpregos().add(new Emprego(empregoRequest, client)));
+            clientRequest.getEmpregos()
+                    .forEach(empregoRequest -> client.getEmpregos().add(EmpregoConverter.toEmprego(empregoRequest, client)));
         }
     }
 
@@ -39,13 +39,7 @@ public class ClientConverter {
 
         clienteRelatorioDto.setNome(client.getName());
         clienteRelatorioDto.setCpf(client.getCpf());
-
-        try {
-            clienteRelatorioDto.setDataNascimento(new SimpleDateFormat("yyyy-MM-dd").parse(client.getBirthDate().toString()));
-        }
-        catch (ParseException e) {
-            throw new RuntimeException("Não foi possível converter data: " + e);
-        }
+        clienteRelatorioDto.setDataNascimento(Converter.localdateToString(client.getBirthDate()));
 
         return clienteRelatorioDto;
     }

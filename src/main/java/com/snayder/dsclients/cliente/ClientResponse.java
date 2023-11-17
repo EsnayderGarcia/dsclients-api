@@ -1,5 +1,6 @@
 package com.snayder.dsclients.cliente;
 
+import com.snayder.dsclients.emprego.EmpregoConverter;
 import com.snayder.dsclients.emprego.EmpregoResponse;
 
 import java.time.LocalDate;
@@ -20,7 +21,7 @@ public class ClientResponse {
         cpf = client.getCpf();
         birthDate = client.getBirthDate();
         children = client.getChildren();
-        client.getEmpregos().forEach(e -> empregos.add(new EmpregoResponse(e)));
+        client.getEmpregos().forEach(e -> empregos.add(EmpregoConverter.toEmpregoResponse(e)));
     }
 
     public Long getId() {

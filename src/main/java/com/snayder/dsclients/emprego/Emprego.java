@@ -3,6 +3,7 @@ package com.snayder.dsclients.emprego;
 import com.snayder.dsclients.cliente.Client;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "tb_empregos")
@@ -12,26 +13,11 @@ public class Emprego {
     private Long id;
     private String cargo;
     private String descricao;
+    private BigDecimal salario;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
-
-    public Emprego() {
-    }
-
-    public Emprego(EmpregoRequest empregoRequest) {
-        id = empregoRequest.getId();
-        cargo = empregoRequest.getCargo();
-        descricao = empregoRequest.getDescricao();
-    }
-
-    public Emprego(EmpregoRequest empregoRequest, Client client) {
-        id = empregoRequest.getId();
-        cargo = empregoRequest.getCargo();
-        descricao = empregoRequest.getDescricao();
-        this.client = client;
-    }
 
     public Long getId() {
         return id;
@@ -55,6 +41,14 @@ public class Emprego {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public BigDecimal getSalario() {
+        return salario;
+    }
+
+    public void setSalario(BigDecimal salario) {
+        this.salario = salario;
     }
 
     public Client getClient() {
