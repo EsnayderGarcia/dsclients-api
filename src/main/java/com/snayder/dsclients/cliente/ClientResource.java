@@ -75,7 +75,7 @@ public class ClientResource {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("report")
+    @GetMapping("relatorio-clientes")
     public ResponseEntity<byte[]> generateClientsReport() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
