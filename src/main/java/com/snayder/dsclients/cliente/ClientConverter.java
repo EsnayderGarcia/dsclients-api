@@ -3,6 +3,10 @@ package com.snayder.dsclients.cliente;
 import com.snayder.dsclients.emprego.EmpregoConverter;
 import com.snayder.dsclients.util.Converter;
 import com.snayder.relatorio.cliente.ClienteRelatorioDto;
+import com.snayder.relatorio.cliente.InformacoesRelatorioDetalhesCliente;
+import com.snayder.relatorio.emprego.EmpregoRelatorioDto;
+
+import java.util.List;
 
 public class ClientConverter {
     public static Client convertToClient(ClientRequest clientRequest) {
@@ -43,4 +47,20 @@ public class ClientConverter {
 
         return clienteRelatorioDto;
     }
+
+    public static InformacoesRelatorioDetalhesCliente convertToClienteRelatorioDetalheDto(Client client) {
+        ClienteRelatorioDto clienteRelatorioDto = convertToClienteRelatorioDto(client);
+
+        List<EmpregoRelatorioDto> empregos = client.getEmpregos().stream().map(emprego -> {
+            EmpregoRelatorioDto empregoRelatorioDto = new EmpregoRelatorioDto();
+            empregoRelatorioDto.setCargo(emprego.getCargo());
+            empregoRelatorioDto.setDescricao(emprego.getDescricao());
+            empregoRelatorioDto.setSalario(emprego.getSalario());
+
+            return empregoRelatorioDto;
+        }).toList();
+
+        return new InformacoesRelatorioDetalhesCliente(clienteRelatorioDto, empregos);
+    }
 }
+

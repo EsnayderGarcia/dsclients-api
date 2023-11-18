@@ -3,7 +3,8 @@ package com.snayder.dsclients.cliente;
 import com.snayder.dsclients.exceptions.ResourceNotFoundException;
 import com.snayder.relatorio.cliente.ClienteRelatorio;
 import com.snayder.relatorio.cliente.ClienteRelatorioDto;
-import com.snayder.relatorio.cliente.InformacoesRelatorioClienteDto;
+import com.snayder.relatorio.cliente.InformacoesRelatorioCliente;
+import com.snayder.relatorio.cliente.InformacoesRelatorioDetalhesCliente;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -69,6 +70,15 @@ public class ClientService {
                 .map(ClientConverter::convertToClienteRelatorioDto)
                 .toList();
 
-        return ClienteRelatorio.gerarRelatorioClientes(new InformacoesRelatorioClienteDto(clientesRelatorioList));
+        return ClienteRelatorio.gerarPdfRelatorioClientes(new InformacoesRelatorioCliente(clientesRelatorioList));
+    }
+
+    @Transactional(readOnly = true)
+    public byte[] generateDetailsClientReport(Long clientId) {
+        InformacoesRelatorioDetalhesCliente informacoesRelatorioDetalhesCliente = this.clientRepository.findById(clientId)
+                .map(ClientConverter::convertToClienteRelatorioDetalheDto)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado!"));
+
+        return ClienteRelatorio.gerarPdfRelatorioDetalhesCliente(informacoesRelatorioDetalhesCliente);
     }
 }

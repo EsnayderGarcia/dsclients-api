@@ -82,4 +82,12 @@ public class ClientResource {
 
         return new ResponseEntity<>(clientService.generateReport(), headers, HttpStatus.OK);
     }
+
+    @GetMapping("relatorio-detalhes-cliente/{clientId}")
+    public ResponseEntity<byte[]> generateDetailsClientsReport(@PathVariable Long clientId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+
+        return new ResponseEntity<>(clientService.generateDetailsClientReport(clientId), headers, HttpStatus.OK);
+    }
 }
