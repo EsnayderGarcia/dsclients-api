@@ -28,7 +28,5 @@ efetivar a conclusão do módulo 1 do Bootcamp Spring 3.0, realizado pela escola
  <img src=https://user-images.githubusercontent.com/108491940/196830409-83817490-6f99-4cf3-b97e-0b40cb99aa0a.png width=750px />
 </div>
 
-## Acesse o projeto 
-<a href="http://dsclients-api.herokuapp.com/swagger-ui/index.html">🚀 DSCLIENTS-API</a>
-
-OBS: A plataforma Heroku coloca em hibernação as aplicações que estão algum tempo sem requisições. Então, caso  o projeto não abra de primeira, por favor, aguarde alguns segundos. Obrigado!
+## Após o start do projeto, acesse:
+<a href="http://localhost:8080/swagger-ui/index.html">🚀 DSCLIENTS-API</a>
