@@ -29,4 +29,4 @@ efetivar a conclusão do módulo 1 do Bootcamp Spring 3.0, realizado pela escola
 </div>
 
 ## Após o start do projeto, acesse:
-<a href="http://localhost:8080/swagger-ui/index.html">🚀 DSCLIENTS-API</a>
+<a href="http://localhost:8080/swagger-ui/index.html" target="_blank">🚀 DSCLIENTS-API</a>
