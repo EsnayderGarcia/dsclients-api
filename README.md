@@ -9,6 +9,8 @@ efetivar a conclusão do módulo 1 do Bootcamp Spring 3.0, realizado pela escola
 - [x] Remover cliente
 - [x] Buscar cliente por id
 - [x] Busca paginada de clientes
+- [x] Geração de ralatório PDF de Clientes
+- [x] Geração de relatório PDF de detalhes de um cliente
 
 ## Tecnologias utilizadas até aqui
 - Java 17
@@ -25,7 +27,7 @@ efetivar a conclusão do módulo 1 do Bootcamp Spring 3.0, realizado pela escola
 
 ## Endpoints client-resource
 <div>   
- <img src=https://user-images.githubusercontent.com/108491940/196830409-83817490-6f99-4cf3-b97e-0b40cb99aa0a.png width=750px />
+ <img src=https://github.com/EsnayderGarcia/dsclients-api/assets/108491940/e693e2b3-e0c6-4b57-923f-fd78ba5dc8ed width=750px />
 </div>
 
 ## Após o start do projeto, acesse:
