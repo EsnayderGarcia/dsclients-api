@@ -12,7 +12,7 @@ public class ClientConverter {
     public static Client convertToClient(ClientRequest clientRequest) {
         Client client = new Client();
         client.setName(clientRequest.getName());
-        client.setCpf(clientRequest.getCpf());
+        client.setCpfCnpj(clientRequest.getDocumento());
         client.setBirthDate(clientRequest.getBirthDate());
         client.setChildren(clientRequest.getChildren());
 
@@ -26,7 +26,7 @@ public class ClientConverter {
 
     public static void converterToClientUpdate(Client client, ClientRequest clientRequest) {
         client.setName(clientRequest.getName());
-        client.setCpf(clientRequest.getCpf());
+        client.setCpfCnpj(clientRequest.getDocumento());
         client.setBirthDate(clientRequest.getBirthDate());
         client.setChildren(clientRequest.getChildren());
 
@@ -42,7 +42,7 @@ public class ClientConverter {
         ClienteRelatorioDto clienteRelatorioDto = new ClienteRelatorioDto();
 
         clienteRelatorioDto.setNome(client.getName());
-        clienteRelatorioDto.setCpf(client.getCpf());
+        clienteRelatorioDto.setCpf(client.getCpfCnpj());
         clienteRelatorioDto.setDataNascimento(Converter.localdateToString(client.getBirthDate()));
 
         return clienteRelatorioDto;

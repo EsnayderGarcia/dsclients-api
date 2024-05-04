@@ -23,7 +23,7 @@ public class Client {
 
 	private String name;
 
-	private String cpf;
+	private String cpfCnpj;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate birthDate;
@@ -59,12 +59,12 @@ public class Client {
 		this.name = name;
 	}
 
-	public String getCpf() {
-		return cpf;
+	public String getCpfCnpj() {
+		return cpfCnpj;
 	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setCpfCnpj(String cpfCnpj) {
+		this.cpfCnpj = cpfCnpj;
 	}
 
 	public LocalDate getBirthDate() {

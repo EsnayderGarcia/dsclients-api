@@ -1,28 +1,32 @@
 package com.snayder.dsclients.cliente;
 
+import com.snayder.dsclients.compatilhado.CpfCnpj;
 import com.snayder.dsclients.emprego.EmpregoRequest;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClientRequest {
 	private String name;
-	
-	private String cpf;
+
+	@NotBlank(message = "O campo documento é obrigatório")
+	@CpfCnpj
+	private String documento;
 
 	private LocalDate birthDate;
-	
+
 	private Integer children;
 
-	private List<EmpregoRequest> empregos = new ArrayList<>();
+	private final List<EmpregoRequest> empregos = new ArrayList<>();
 	
 	public ClientRequest() {
 	}
 
 	public ClientRequest(Client client) {
 		this.name = client.getName();
-		this.cpf = client.getCpf();
+		this.documento = client.getCpfCnpj();
 		this.birthDate = client.getBirthDate();
 		this.children = client.getChildren();
 	}
@@ -35,12 +39,12 @@ public class ClientRequest {
 		this.name = name;
 	}
 
-	public String getCpf() {
-		return cpf;
+	public String getDocumento() {
+		return documento;
 	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setDocumento(String documento) {
+		this.documento = documento;
 	}
 
 	public LocalDate getBirthDate() {

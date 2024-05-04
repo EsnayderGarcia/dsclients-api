@@ -10,7 +10,7 @@ import java.util.List;
 public class ClientResponse {
     private Long id;
     private String name;
-    private String cpf;
+    private String cpfCnpj;
     private LocalDate birthDate;
     private Integer children;
     private final List<EmpregoResponse> empregos = new ArrayList<>();
@@ -18,7 +18,7 @@ public class ClientResponse {
     public ClientResponse(Client client) {
         id = client.getId();
         name = client.getName();
-        cpf = client.getCpf();
+        cpfCnpj = client.getCpfCnpj();
         birthDate = client.getBirthDate();
         children = client.getChildren();
         client.getEmpregos().forEach(e -> empregos.add(EmpregoConverter.toEmpregoResponse(e)));
@@ -32,8 +32,8 @@ public class ClientResponse {
         return name;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getCpfCnpj() {
+        return cpfCnpj;
     }
 
     public LocalDate getBirthDate() {

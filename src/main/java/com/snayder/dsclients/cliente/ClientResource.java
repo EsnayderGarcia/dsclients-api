@@ -10,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/clients")
@@ -35,7 +37,7 @@ public class ClientResource implements ClientSwagger {
     }
 
     @PostMapping
-    public ResponseEntity<ClientResponse> insert(@RequestBody ClientRequest dto) {
+    public ResponseEntity<ClientResponse> insert(@RequestBody @Valid ClientRequest dto) {
         ClientResponse clientResponse = this.clientService.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -52,14 +54,16 @@ public class ClientResource implements ClientSwagger {
     }
 
     @PutMapping("/{idClient}")
-    public ResponseEntity<ClientResponse> update(@RequestBody ClientRequest dto, @PathVariable Long idClient) {
+    public ResponseEntity<ClientResponse> update(@RequestBody @Valid ClientRequest dto, @PathVariable Long idClient) {
         return ResponseEntity.ok(clientService.update(idClient, dto));
     }
 
     @GetMapping("relatorio-clientes")
     public ResponseEntity<byte[]> generateClientsReport() {
         HttpHeaders headers = new HttpHeaders();
+        headers.setAccessControlExposeHeaders(List.of("nomeRelatorio"));
         headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.set("nomeRelatorio", "Relatório de Clientes Tops");
 
         return new ResponseEntity<>(clientService.generateReport(), headers, HttpStatus.OK);
     }
