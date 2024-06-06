@@ -28,11 +28,11 @@ public interface ClientSwagger {
     @ApiOperation("Remove um cliente por id")
     ResponseEntity<Void> delete(@ApiParam(value = "Id do Cliente", example = "1") Long idClient);
 
-    @ApiOperation("Recupera um array de bytes para geração do relatório de clientes em PDF")
-    ResponseEntity<byte[]> generateClientsReport();
-
-    @ApiOperation("Recupera um array de bytes para geração do relatório de detalhes do cliente em PDF")
-    ResponseEntity<byte[]> generateDetailsClientsReport(
-        @ApiParam(value = "Id do Cliente", example = "1") Long clientId
-    );
+//    @ApiOperation("Recupera um array de bytes para geração do relatório de clientes em PDF")
+//    ResponseEntity<byte[]> generateClientsReport();
+//
+//    @ApiOperation("Recupera um array de bytes para geração do relatório de detalhes do cliente em PDF")
+//    ResponseEntity<byte[]> generateDetailsClientsReport(
+//        @ApiParam(value = "Id do Cliente", example = "1") Long clientId
+//    );
 }

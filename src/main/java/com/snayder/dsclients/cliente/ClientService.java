@@ -1,10 +1,6 @@
 package com.snayder.dsclients.cliente;
 
 import com.snayder.dsclients.exceptions.ResourceNotFoundException;
-import com.snayder.relatorio.cliente.ClienteRelatorio;
-import com.snayder.relatorio.cliente.ClienteRelatorioDto;
-import com.snayder.relatorio.cliente.InformacoesRelatorioCliente;
-import com.snayder.relatorio.cliente.InformacoesRelatorioDetalhesCliente;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
 
 @Service
 public class ClientService {
@@ -62,23 +57,5 @@ public class ClientService {
         } catch (EmptyResultDataAccessException ex) {
             throw new ResourceNotFoundException("Cliente não encotrado para exclusão!");
         }
-    }
-
-    public byte[] generateReport() {
-        List<ClienteRelatorioDto> clientesRelatorioList = clientRepository.findAll()
-                .stream()
-                .map(ClientConverter::convertToClienteRelatorioDto)
-                .toList();
-
-        return ClienteRelatorio.gerarPdfRelatorioClientes(new InformacoesRelatorioCliente(clientesRelatorioList));
-    }
-
-    @Transactional(readOnly = true)
-    public byte[] generateDetailsClientReport(Long clientId) {
-        InformacoesRelatorioDetalhesCliente informacoesRelatorioDetalhesCliente = this.clientRepository.findById(clientId)
-                .map(ClientConverter::convertToClienteRelatorioDetalheDto)
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado!"));
-
-        return ClienteRelatorio.gerarPdfRelatorioDetalhesCliente(informacoesRelatorioDetalhesCliente);
     }
 }

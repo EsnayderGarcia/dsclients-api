@@ -3,16 +3,12 @@ package com.snayder.dsclients.cliente;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/clients")
@@ -56,23 +52,5 @@ public class ClientResource implements ClientSwagger {
     @PutMapping("/{idClient}")
     public ResponseEntity<ClientResponse> update(@RequestBody @Valid ClientRequest dto, @PathVariable Long idClient) {
         return ResponseEntity.ok(clientService.update(idClient, dto));
-    }
-
-    @GetMapping("relatorio-clientes")
-    public ResponseEntity<byte[]> generateClientsReport() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccessControlExposeHeaders(List.of("nomeRelatorio"));
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.set("nomeRelatorio", "Relatório de Clientes Tops");
-
-        return new ResponseEntity<>(clientService.generateReport(), headers, HttpStatus.OK);
-    }
-
-    @GetMapping("relatorio-detalhes-cliente/{clientId}")
-    public ResponseEntity<byte[]> generateDetailsClientsReport(@PathVariable Long clientId) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-
-        return new ResponseEntity<>(clientService.generateDetailsClientReport(clientId), headers, HttpStatus.OK);
     }
 }
